@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "guilherme-ricco",
+    "numero": "01",
+    "nome": "Guilherme<br />Ricco",
+    "cargo": "Designer",
+    "bio": "<p>Designer da Voxion Studio. Atua na criação de identidades visuais, direção criativa e experiências que transformam ideias em marcas com presença.</p>",
+    "foto": "/assets/team/guilherme-ricco.jpeg",
+    "fotoAlt": "Guilherme Ricco",
+    "copyClass": "profile-copy",
+    "stats": null
+  },
+  {
+    "slug": "guilherme-teluski",
+    "numero": "02",
+    "nome": "Guilherme<br />Teluski",
+    "cargo": "Financeiro / Gestor de tráfego",
+    "bio": "<div class=\"profile-bio\"><p class=\"profile-lead\">Um estrategista que enxerga o negócio antes do anúncio, e a venda em cada decisão.</p><p>Estratégia e marketing fazem parte de todo negócio. Minha trajetória passou pelo comércio, indústria e rotina administrativa de empresas. Conheço de perto a realidade de quem precisa vender, e é dessa vivência que nascem as decisões que tomo.</p><p>Bacharel em Ciências Contábeis e especialista lato sensu em Marketing, Dados e Gestão, uno a leitura dos números à estratégia de crescimento. Atuo com Meta, Google, redes sociais, dados, conteúdo e soluções digitais com um objetivo claro: ajudar negócios a venderem mais.</p><p>Acredito em movimento e propósito para construir marcas com proximidade, transparência e entregas além do esperado.</p><div class=\"profile-stats\"><span><b>6+ anos</b> negócios e empresas, no Brasil e no exterior.</span><span><b>5 frentes</b> estratégia, tráfego, dados, conteúdo e gestão.</span></div></div>",
+    "foto": "/assets/team/guilherme-teluski.jpeg",
+    "fotoAlt": "Guilherme Teluski",
+    "copyClass": "profile-copy profile-copy-long",
+    "stats": null
+  },
+  {
+    "slug": "lucas-chaves",
+    "numero": "03",
+    "nome": "Lucas<br />Chaves",
+    "cargo": "Programador",
+    "bio": "<p>Programador da Voxion Studio. Desenvolve experiências digitais com atenção aos detalhes, desempenho e consistência em cada interação.</p>",
+    "foto": null,
+    "fotoAlt": "Lucas Chaves",
+    "copyClass": "profile-copy",
+    "stats": null
+  }
+]

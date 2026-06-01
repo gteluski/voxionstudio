@@ -273,7 +273,7 @@ img {
 }
 
 .hero-sticker-space::before {
-  background: url("assets/brand/logos/seal-beige.png") center / contain no-repeat;
+  background: url("/assets/brand/logos/seal-beige.png") center / contain no-repeat;
   content: "";
   height: clamp(190px, 16vw, 272px);
   left: 50%;

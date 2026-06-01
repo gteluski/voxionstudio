@@ -1,20 +1,20 @@
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("assets/fonts/helvetica-neue-thin.otf") format("opentype");
+  src: url("/assets/fonts/helvetica-neue-thin.otf") format("opentype");
   font-style: normal;
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("assets/fonts/helvetica-neue-medium.otf") format("opentype");
+  src: url("/assets/fonts/helvetica-neue-medium.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Metana Mono";
-  src: url("assets/fonts/neue-metana-mono-semibold.ttf") format("truetype");
+  src: url("/assets/fonts/neue-metana-mono-semibold.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
 }

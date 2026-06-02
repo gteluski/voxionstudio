@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const rootDir = __dirname;
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST?.trim();
 const port = Number.parseInt(process.env.PORT ?? "", 10) || 3000;
 
 const mimeTypes = {
@@ -133,6 +133,16 @@ const server = http.createServer(async (request, response) => {
   stream.pipe(response);
 });
 
-server.listen(port, host, () => {
-  console.log(`Voxion Studio rodando em http://${host}:${port}`);
+server.on("error", (error) => {
+  console.error("Falha ao iniciar o servidor Voxion Studio.", error);
 });
+
+if (host) {
+  server.listen(port, host, () => {
+    console.log(`Voxion Studio rodando em http://${host}:${port}`);
+  });
+} else {
+  server.listen(port, () => {
+    console.log(`Voxion Studio rodando na porta ${port}`);
+  });
+}

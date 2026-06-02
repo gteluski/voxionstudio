@@ -1,82 +1,138 @@
-const express = require('express');
-const path = require('path');
-require('dotenv').config();
+const http = require("node:http");
+const fs = require("node:fs");
+const path = require("node:path");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const rootDir = __dirname;
+const host = process.env.HOST || "127.0.0.1";
+const port = Number.parseInt(process.env.PORT ?? "", 10) || 3000;
 
-const equipe = require('./data/equipe.json');
+const mimeTypes = {
+  ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
+  ".html": "text/html; charset=utf-8",
+  ".ico": "image/x-icon",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
+  ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".mp4": "video/mp4",
+  ".otf": "font/otf",
+  ".pdf": "application/pdf",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".ttf": "font/ttf",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2"
+};
 
-// ---------------------------------------------------------------------------
-// Template de perfil — renderizado server-side com caminhos absolutos
-// ---------------------------------------------------------------------------
-function renderProfile(pessoa) {
-  const fotoHTML = pessoa.foto
-    ? `<div class="profile-photo-panel">
-        <img src="${pessoa.foto}" alt="${pessoa.fotoAlt}" />
-      </div>`
-    : `<div class="profile-photo-placeholder">
-        <span>Adicionar foto</span>
-        <small>${pessoa.fotoAlt}</small>
-      </div>`;
+const safeResolve = (relativePath) => {
+  const resolvedPath = path.resolve(rootDir, relativePath);
 
-  return `<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${pessoa.fotoAlt} | Voxion Studio</title>
-    <link rel="stylesheet" href="/styles.css" />
-  </head>
-  <body class="profile-page">
-    <main class="profile-shell">
-      <a class="profile-back" href="/#equipe">← Voltar para Voxion</a>
-      <div class="profile-grid">
-        ${fotoHTML}
-        <div class="${pessoa.copyClass}">
-          <span>Voxion people / ${pessoa.numero}</span>
-          <h1>${pessoa.nome}</h1>
-          <strong>${pessoa.cargo}</strong>
-          ${pessoa.bio}
-          <a href="https://wa.me/5543974001872" target="_blank" rel="noopener noreferrer">Entrar em contato ↗</a>
-        </div>
-      </div>
-    </main>
-  </body>
-</html>`;
-}
-
-// ---------------------------------------------------------------------------
-// Arquivos estáticos servidos de /public na raiz /
-// ---------------------------------------------------------------------------
-app.use(express.static(path.join(__dirname, 'public')));
-
-// ---------------------------------------------------------------------------
-// Rotas de páginas
-// ---------------------------------------------------------------------------
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
-app.get('/portfolio', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'portfolio.html'));
-});
-
-app.get('/equipe/:membro', (req, res) => {
-  const pessoa = equipe.find(p => p.slug === req.params.membro);
-  if (!pessoa) {
-    return res.status(404).sendFile(path.join(__dirname, 'views', 'index.html'));
+  if (!resolvedPath.startsWith(rootDir)) {
+    return null;
   }
-  res.send(renderProfile(pessoa));
+
+  return resolvedPath;
+};
+
+const getCandidatePaths = (pathname) => {
+  const normalizedPath = pathname.replace(/\/+/g, "/");
+  const trimmedPath =
+    normalizedPath === "/" ? "/" : normalizedPath.replace(/\/$/, "");
+  const relativePath = trimmedPath.startsWith("/")
+    ? trimmedPath.slice(1)
+    : trimmedPath;
+
+  if (trimmedPath === "/") {
+    return ["index.html", "views/index.html"];
+  }
+
+  if (path.extname(relativePath)) {
+    return [relativePath];
+  }
+
+  return [`${relativePath}.html`, path.join(relativePath, "index.html")];
+};
+
+const findExistingFile = async (pathname) => {
+  const candidates = getCandidatePaths(pathname);
+
+  for (const candidate of candidates) {
+    const resolvedPath = safeResolve(candidate);
+
+    if (!resolvedPath) {
+      continue;
+    }
+
+    try {
+      const stats = await fs.promises.stat(resolvedPath);
+
+      if (stats.isFile()) {
+        return { filePath: resolvedPath, stats };
+      }
+    } catch {
+      // Ignore missing candidates and keep trying the next option.
+    }
+  }
+
+  return null;
+};
+
+const sendError = (response, statusCode, message) => {
+  response.writeHead(statusCode, {
+    "Content-Type": "text/plain; charset=utf-8"
+  });
+  response.end(message);
+};
+
+const server = http.createServer(async (request, response) => {
+  if (!request.url) {
+    sendError(response, 400, "Requisicao invalida.");
+    return;
+  }
+
+  if (!["GET", "HEAD"].includes(request.method ?? "")) {
+    sendError(response, 405, "Metodo nao permitido.");
+    return;
+  }
+
+  const requestUrl = new URL(request.url, "http://localhost");
+  const match = await findExistingFile(decodeURIComponent(requestUrl.pathname));
+
+  if (!match) {
+    sendError(response, 404, "Pagina nao encontrada.");
+    return;
+  }
+
+  const extension = path.extname(match.filePath).toLowerCase();
+  const contentType = mimeTypes[extension] ?? "application/octet-stream";
+
+  response.writeHead(200, {
+    "Cache-Control":
+      extension === ".html" ? "no-cache" : "public, max-age=3600",
+    "Content-Length": match.stats.size,
+    "Content-Type": contentType
+  });
+
+  if (request.method === "HEAD") {
+    response.end();
+    return;
+  }
+
+  const stream = fs.createReadStream(match.filePath);
+
+  stream.on("error", () => {
+    if (!response.headersSent) {
+      sendError(response, 500, "Erro ao ler o arquivo.");
+      return;
+    }
+
+    response.destroy();
+  });
+
+  stream.pipe(response);
 });
 
-// ---------------------------------------------------------------------------
-// Fallback 404 — redireciona para a home
-// ---------------------------------------------------------------------------
-app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`Voxion Studio rodando em http://localhost:${PORT}`);
+server.listen(port, host, () => {
+  console.log(`Voxion Studio rodando em http://${host}:${port}`);
 });

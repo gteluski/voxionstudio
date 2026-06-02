@@ -13,12 +13,3 @@ yarn-error.log*
 # Sistema operacional
 .DS_Store
 Thumbs.db
-
-# Arquivos estáticos originais da raiz (migrados para public/ e views/)
-/index.html
-/portfolio.html
-/portfolio.js
-/script.js
-/styles.css
-/assets/
-/equipe/

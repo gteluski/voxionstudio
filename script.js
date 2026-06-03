@@ -47,10 +47,6 @@ const serviceReel = document.querySelector(".service-reel");
 const serviceReelRows = document.querySelectorAll(".service-reel-row");
 const contactReel = document.querySelector(".contact");
 const contactReelRows = document.querySelectorAll(".contact-reel-row");
-const testimonials = document.querySelector(".testimonials");
-const testimonialTrack = document.querySelector(".testimonial-track");
-const testimonialCards = document.querySelectorAll(".testimonial-card");
-const testimonialProgress = document.querySelector(".testimonial-progress i");
 const heroSticker = document.querySelector(".hero-sticker-space");
 
 const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
@@ -85,23 +81,6 @@ const moveServiceReelOnScroll = () => {
   });
 };
 
-const moveTestimonialsOnScroll = () => {
-  if (!testimonials || !testimonialTrack || !testimonialCards.length) return;
-
-  const rect = testimonials.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
-  const progress = clamp((viewportHeight * 0.78 - rect.top) / (viewportHeight * 0.54 + rect.height * 0.78));
-  const cardWidth = testimonialCards[0].getBoundingClientRect().width;
-  const gap = window.innerWidth < 800 ? 12 : 18;
-  const distance = (cardWidth + gap) * (testimonialCards.length - 1);
-  const offset = -progress * distance;
-  const activeIndex = Math.round(progress * (testimonialCards.length - 1));
-
-  testimonialTrack.style.setProperty("--testimonial-offset", offset.toFixed(2));
-  testimonialProgress?.style.setProperty("--testimonial-progress", progress.toFixed(4));
-  testimonialCards.forEach((card, index) => card.classList.toggle("is-active", index === activeIndex));
-};
-
 const moveContactReelOnScroll = () => {
   if (!contactReel || !contactReelRows.length) return;
 
@@ -133,7 +112,6 @@ const requestScribbleUpdate = () => {
   scribbleFrame = requestAnimationFrame(() => {
     drawScribbleOnScroll();
     moveServiceReelOnScroll();
-    moveTestimonialsOnScroll();
     moveContactReelOnScroll();
     rotateHeroStickerOnScroll();
     scribbleFrame = null;
@@ -144,6 +122,5 @@ window.addEventListener("scroll", requestScribbleUpdate, { passive: true });
 window.addEventListener("resize", requestScribbleUpdate);
 drawScribbleOnScroll();
 moveServiceReelOnScroll();
-moveTestimonialsOnScroll();
 moveContactReelOnScroll();
 rotateHeroStickerOnScroll();

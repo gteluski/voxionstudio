@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var tooltip = document.getElementById("tech-badge-tooltip");
   var introPopup = document.getElementById("tech-intro-popup");
 
+  if (tooltip && tooltip.parentElement !== document.body) {
+    document.body.appendChild(tooltip);
+  }
+
   if (trigger && tooltip && isTouchDevice) {
     trigger.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -34,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("click", function (e) {
       if (!introPopup.contains(e.target)) hideIntroPopup();
-      if (wrapper && tooltip && !wrapper.contains(e.target)) {
+      if (wrapper && tooltip && !wrapper.contains(e.target) && !tooltip.contains(e.target)) {
         tooltip.classList.remove("is-open");
       }
     });

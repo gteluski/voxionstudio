@@ -17,6 +17,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  if (tooltip) {
+    window.addEventListener(
+      "scroll",
+      function () {
+        tooltip.classList.remove("is-open");
+      },
+      { passive: true }
+    );
+
+    document.addEventListener(
+      "touchmove",
+      function () {
+        tooltip.classList.remove("is-open");
+      },
+      { passive: true }
+    );
+  }
+
   function hideIntroPopup() {
     if (introPopup) introPopup.classList.remove("is-visible");
   }

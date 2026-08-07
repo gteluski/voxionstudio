@@ -2421,6 +2421,11 @@ h1 span {
 }
 
 @media (max-width: 800px) {
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
   section[id] {
     scroll-margin-top: 68px;
   }
@@ -2506,8 +2511,8 @@ h1 span {
       radial-gradient(circle at 76% 5%, rgba(255, 129, 38, 0.18) 0, transparent 23%),
       radial-gradient(circle at 25% 17%, rgba(255, 255, 255, 0.42) 0, transparent 28%),
       var(--beige);
-    min-height: max(640px, 100svh);
-    padding: 84px 6vw 45px;
+    min-height: auto;
+    padding: 84px 6vw 48px;
   }
 
   .hero-grid {
@@ -2903,7 +2908,9 @@ h1 span {
   }
 
   .service-reel {
+    max-width: 100vw;
     min-height: 600px;
+    overflow: hidden;
     padding-top: 24px;
   }
 
@@ -2917,7 +2924,7 @@ h1 span {
   }
 
   .service-reel-row span {
-    font-size: clamp(4rem, 20vw, 5.5rem);
+    font-size: clamp(4.4rem, 20vw, 5.5rem);
   }
 
   .reel-left {
@@ -3084,7 +3091,9 @@ h1 span {
   }
 
   .contact {
+    max-width: 100vw;
     min-height: 570px;
+    overflow: hidden;
     padding: 28px 0 32px;
   }
 
@@ -3338,8 +3347,24 @@ h1 span {
   }
   .tech-badge-tooltip {
     left: 50%;
-    max-width: 340px;
+    max-width: calc(100vw - 48px);
+    right: auto;
+    transform: translate(-50%, 6px);
     width: calc(100vw - 48px);
+  }
+  .tech-badge-tooltip.is-open {
+    transform: translate(-50%, 0);
+  }
+  .tech-intro-popup {
+    left: 16px;
+    max-width: none;
+    right: 16px;
+    top: 76px;
+    transform: translateY(-24px);
+    width: auto;
+  }
+  .tech-intro-popup.is-visible {
+    transform: translateY(0);
   }
 }
 

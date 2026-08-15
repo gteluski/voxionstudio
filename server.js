@@ -21,6 +21,7 @@ const mimeTypes = {
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".ttf": "font/ttf",
+  ".txt": "text/plain; charset=utf-8",
   ".woff": "font/woff",
   ".woff2": "font/woff2"
 };
@@ -44,14 +45,18 @@ const getCandidatePaths = (pathname) => {
     : trimmedPath;
 
   if (trimmedPath === "/") {
-    return ["index.html", "views/index.html"];
+    return ["index.html", "views/index.html", "public/index.html"];
   }
 
   if (path.extname(relativePath)) {
-    return [relativePath];
+    return [relativePath, path.join("public", relativePath)];
   }
 
-  return [`${relativePath}.html`, path.join(relativePath, "index.html")];
+  return [
+    `${relativePath}.html`,
+    path.join(relativePath, "index.html"),
+    path.join("public", relativePath)
+  ];
 };
 
 const findExistingFile = async (pathname) => {

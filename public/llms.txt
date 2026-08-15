@@ -1,0 +1,22 @@
+# Voxion Studio
+
+> Voxion Studio é uma agência Meta Tech Provider especialista em tráfego pago para prestadores de serviço.
+
+## Visão Geral
+A Voxion Studio é uma agência de tecnologia e marketing especializada em tráfego pago, automações e desenvolvimento para prestadores de serviço e empresas que buscam alta performance e escala de vendas. Como Meta Tech Provider, entregamos soluções integradas de mídia, inteligência e tecnologia.
+
+## Equipe
+- Guilherme Teluski
+- Guilherme Ricco
+- Lucas Chaves
+
+## Serviços
+- **Tráfego**: Gestão estratégica de tráfego pago (Meta Ads, Google Ads) focada em aquisição e conversão de clientes.
+- **Automação**: Automações inteligentes para processos de vendas, atendimento e integração de sistemas.
+- **Branding**: Posicionamento de marca, identidade visual e design estratégico.
+- **Programação**: Desenvolvimento web, sistemas sob medida e integrações tecnológicas.
+
+## Contatos
+- **WhatsApp**: 43 96725-5591
+- **E-mail**: contato@voxion.com
+- **Website**: https://voxionstudio.com/

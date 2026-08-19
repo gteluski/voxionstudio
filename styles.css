@@ -1,22 +1,28 @@
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("assets/fonts/helvetica-neue-thin.otf") format("opentype");
+  src: url("assets/fonts/helvetica-neue-thin.woff2") format("woff2"),
+       url("assets/fonts/helvetica-neue-thin.otf") format("opentype");
   font-style: normal;
   font-weight: 300;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Helvetica Neue";
-  src: url("assets/fonts/helvetica-neue-medium.otf") format("opentype");
+  src: url("assets/fonts/helvetica-neue-medium.woff2") format("woff2"),
+       url("assets/fonts/helvetica-neue-medium.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Metana Mono";
-  src: url("assets/fonts/neue-metana-mono-semibold.ttf") format("truetype");
+  src: url("assets/fonts/neue-metana-mono-semibold.woff2") format("woff2"),
+       url("assets/fonts/neue-metana-mono-semibold.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
+  font-display: swap;
 }
 
 :root {
